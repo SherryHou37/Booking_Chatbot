@@ -50,14 +50,6 @@ def chatbot():
     while True:
         user_input = input(f"{user_name}: ")  # Use the stored name in the user prompt
 
-        # Check if the user asks for their name
-        if "my name" in user_input.lower():  # If the user asks for their name
-            if user_name:
-                print(f"Chatbot: Your name is {user_name}.")
-            else:
-                print("Chatbot: I don't know your name yet. Could you please tell me?")
-            continue  # Continue the loop to ask for the next input
-
         if user_input.lower() in ['exit', 'quit']:
             print("Chatbot: Thank you for using the system. Goodbye!")
             break
@@ -71,8 +63,35 @@ def chatbot():
                 print("Chatbot: You can now continue with other requests or say 'exit' to end.")
                 continue
 
+        if intent == "name":
+            if user_name:
+                print(f"Chatbot: Your name is {user_name}.")
+            else:  # 如果不知道名字，提示用户提供
+                print("Chatbot: I don't know your name yet. Could you please tell me?")
+                name_input = input("User: ")  # 捕获用户的输入
+                if name_input.strip():  # 检查输入是否非空
+                    user_name = name_input.strip()  # 去除空格并存储名字
+                    print(f"Chatbot: Nice to meet you, {user_name}!")
+                else:  # 如果用户未输入任何内容
+                    print("Chatbot: I couldn't understand your name. Could you repeat it?")
+            continue
+
         elif intent == "AskAboutRestaurant":
             handle_restaurant_query(user_input, restaurant_info)
+            continue
+
+        elif intent == "change":
+            if user_name:  # 如果已经有名字，提示用户进行修改
+                print(f"Chatbot: Your current name is {user_name}. What would you like to change it to?")
+            else:  # 如果名字尚未设置，提示用户输入新名字
+                print("Chatbot: I don't know your name yet. Please tell me your name.")
+
+            new_name_input = input("User: ")  # 捕获用户的新名字输入
+            if new_name_input.strip():  # 检查输入是否非空
+                user_name = new_name_input.strip()  # 更新名字
+                print(f"Chatbot: Got it! Your name has been updated to {user_name}.")
+            else:  # 如果用户未输入任何内容
+                print("Chatbot: I couldn't understand your input. Your name remains unchanged.")
             continue
 
         elif intent in responses:

@@ -40,7 +40,7 @@ def predict_intent(user_input, threshold=0.5):
     max_similarity = np.max(cosine_similarities)
 
     if any(keyword in user_input for keyword in [
-        'restaurant', 'location', 'place', 'name',  # 餐厅本身信息
+        'restaurant', 'location', 'place', 'restaurant name',  # 餐厅本身信息
         'menu', 'food', 'dish', 'items',  # 菜单信息
         'address', 'where',  # 地址信息
         'hours', 'operating hours', 'opening hours', 'time',  # 营业时间信息
