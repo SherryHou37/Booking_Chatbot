@@ -131,158 +131,169 @@ def is_valid_phone(input_str):
 # Function to prompt the user for input
 def prompt_for_input(prompt, name, restaurant_info):
     while True:
-        print(f"Chatbot: {prompt}")  # 显示机器人提示
-        user_input = input(f"{name}: ")  # 获取用户输入并加上用户的前缀
+        print(f"Chatbot: {prompt}")
+        user_input = input(f"{name}: ").strip()
 
-        if user_input in ["exit", "quit"]:
+        if user_input.lower() in ["exit", "quit"]:
             print("Chatbot: Exiting the reservation process. Thank you!")
-            print("Exiting the restaurant booking system. Have a nice day!")
             exit()
 
+        # 检测意图
         intent = predict_intent(user_input)
+
+        # 如果用户输入 "change"，处理修改名字逻辑
         if intent == "change":
             new_name = input("Chatbot: Please provide the new name: ").strip()
             if new_name:
                 print(f"Chatbot: Got it! The name has been changed to {new_name}.")
-                name = new_name  # 更新 name
-                continue  # 返回当前提示输入的上下文
+                return new_name, True  # 返回新名字并标记为名字更新
+            else:
+                print("Chatbot: Name change canceled. Please try again.")
+                continue
 
-        # 如果用户输入是有效的名字
+        # 验证其他输入类型
         if "name" in prompt.lower():
-            if user_input:  # 确保名称不为空
+            if user_input:
                 print(f"Chatbot: Got it! The new name is {user_input}.")
-                return user_input
+                return user_input, True  # 返回新名字并标记为名字更新
             else:
                 print("Chatbot: Name cannot be empty. Please try again.")
 
-        # 如果用户询问餐厅信息，处理并继续
-        if check_for_restaurant_query(user_input):
-            handle_restaurant_query(user_input, restaurant_info)  # 调用查询函数提供信息
-            continue  # 继续等待其他输入
-
-        if "name" in prompt.lower():
-            if user_input:  # 检查输入是否为空
-                print(f"Chatbot: Got it! The new name is {user_input}.")
-                return user_input
-            else:
-                print("Chatbot: Name cannot be empty. Please try again.")
-
-        # 如果用户输入了日期时间，进行验证
         if "date" in prompt.lower() or "time" in prompt.lower():
             valid, error_message = is_valid_reservation_time(user_input)
             if valid:
-                return user_input  # 返回有效的时间
+                return user_input, False  # 返回有效时间，不标记为名字更新
             else:
-                print(f"Chatbot: {error_message}")  # 提示日期时间错误
+                print(f"Chatbot: {error_message}")
 
-        # 处理人数输入（Party Size: <value>），确保是1到9之间的整数
         if "people" in prompt.lower():
             try:
                 value = int(user_input)
-                if value > 0 and value < 10:
-                    return value
+                if 1 <= value <= 10:  # 限制人数范围
+                    return value, False  # 返回人数，不标记为名字更新
                 else:
-                    print("Chatbot: The restaurant can only accommodate up to 10 guests at a time.")  # 提示正确范围
+                    print("Chatbot: The restaurant can only accommodate up to 10 guests at a time.")
             except ValueError:
-                print("Chatbot: Please enter a valid number. For example: 3.")  # 提示用户输入有效数字
+                print("Chatbot: Please enter a valid number. For example: 3.")
 
-        # 如果用户输入了邮箱，并且格式有效，则直接返回邮箱
         if "email" in prompt.lower() and is_valid_email(user_input):
             print(f"Chatbot: Got it! Your email is {user_input}.")
-            return user_input  # 返回有效的邮箱
+            return user_input, False  # 返回有效的邮箱，不标记为名字更新
 
-        # 如果用户输入了电话号码，并且格式有效，则直接返回电话号码
-        elif "phone" in prompt.lower() and is_valid_phone(user_input):
+        if "phone" in prompt.lower() and is_valid_phone(user_input):
             print(f"Chatbot: Got it! Your phone number is {user_input}.")
-            return user_input  # 返回有效的电话
+            return user_input, False  # 返回有效的电话号码，不标记为名字更新
 
-        # 如果没有输入有效的邮箱或电话，提示用户重新输入
-        if "email" in prompt.lower() or "phone" in prompt.lower():
-            print("Chatbot: Please enter a valid email or phone number.")
+        print("Chatbot: Invalid input. Please try again.")
 
-
-
-# 更新 start_reservation_process 函数
 def start_reservation_process(name, restaurant_info):
-    print(f"Chatbot: Hello, {name}! Let's proceed with your reservation.")
-
-    # 询问人数
-    party_size = prompt_for_input(f"How many people will be in your party? (e.g  3)", name, restaurant_info)
-
-    # 询问日期时间
-    date_time = prompt_for_input(f"What date and time would you like to book? (e.g  08/09/2024 6:30 PM)", name, restaurant_info)
-
-    # 询问联系方式
-    contact_info = prompt_for_input(f"Please provide your contact information (Email or Phone)", name, restaurant_info)
-
-    print("\nChatbot: Here is the information you provided:")
-    print(f"  Name: {name}")
-    print(f"  Party Size: {party_size}")
-    print(f"  Date/Time: {date_time}")
-    print(f"  Contact Info: {contact_info}")
-    # 所有信息收集完成后进行预订
     while True:
-        print("Chatbot: Are you sure you want to book? (e.g., yes/yeah for Yes, no/nah for No)")
-        user_input = input(f"{name}: ").strip().lower()
+        print(f"Chatbot: Hello, {name}! Let's proceed with your reservation.")
 
-        # 调用意图识别
-        intent = predict_intent(user_input)
-
-        if intent == "positive_responses":
-            # 用户确认预订，跳出确认环节
-            break
-        elif intent == "negative_responses":
-            # 用户拒绝，重新开始流程
-            print("Chatbot: Let's re-enter your information.")
-            return start_reservation_process(name, restaurant_info)
-        else:
-            print("Chatbot: I'm sorry, I didn't understand that. Please respond with yes or no.")
-
-    # 生成预订
-    reservation_id, reservation_details = make_reservation(name, party_size, date_time, contact_info)
-    print(f"Chatbot: Your reservation has been confirmed!\n{get_reservation_details(reservation_id)}")
-
-    # 后续流程：修改、取消等
-    while True:
-        print("Chatbot: Would you like to [1] check the status, [2] modify, [3] cancel, or [4] finish?")
-        user_input = input(f"{name}: ").strip().lower()
-
-        if user_input == "1":
-            print(f"Chatbot: {get_reservation_details(reservation_id)}")
-        elif user_input == "2":
-            # 修改流程
-            print("Chatbot: You can modify the following details:")
-            print("0. Name")
-            print("1. Party size")
-            print("2. Date and time")
-            print("3. Contact info")
-
-            modify_choice = input("Chatbot: What would you like to modify? (0/1/2/3): ").strip()
-            if modify_choice == "0":
-                new_name = prompt_for_input("What's the new name? (e.g Patrick)", name, restaurant_info)
-                print(modify_reservation(reservation_id, new_name, party_size, date_time, contact_info))
-            elif modify_choice == "1":
-                # 修改人数
-                new_party_size = prompt_for_input("How many people will be in your party? (e.g  3)", name, restaurant_info)
-                print(modify_reservation(reservation_id, name, new_party_size, date_time, contact_info))
-            elif modify_choice == "2":
-                # 修改日期时间
-                new_date_time = prompt_for_input("What date and time would you like to book? (e.g  08/09/2024 6:30 PM)", name, restaurant_info)
-                print(modify_reservation(reservation_id, name, party_size, new_date_time, contact_info))
-            elif modify_choice == "3":
-                # 修改联系方式
-                new_contact_info = prompt_for_input("Please provide your new contact information (Email or Phone)", name, restaurant_info)
-                print(modify_reservation(reservation_id,name, party_size, date_time, new_contact_info))
+        # 询问人数
+        while True:
+            value, is_name_update = prompt_for_input(f"How many people will be in your party? (e.g., 3)", name, restaurant_info)
+            if is_name_update:
+                name = value  # 更新名字
+                continue  # 重新开始
             else:
-                print("Chatbot: Invalid option, returning to main menu.")
+                party_size = value
+                break
 
-        elif user_input == "3":
-            print(cancel_reservation(reservation_id))
-            break
-        elif user_input == "4":
-            print("Chatbot: Thank you for using our reservation system! You can always make a new reservation later.")
-            break
-        else:
-            print("Chatbot: I'm sorry, I didn't understand that. Please choose a valid option.")
+        # 询问日期时间
+        while True:
+            value, is_name_update = prompt_for_input(f"What date and time would you like to book? (e.g., 08/09/2024 6:30 PM)", name, restaurant_info)
+            if is_name_update:
+                name = value  # 更新名字
+                continue
+            else:
+                date_time = value
+                break
 
-    return True
+        # 询问联系方式
+        while True:
+            value, is_name_update = prompt_for_input(f"Please provide your contact information (Email or Phone)", name, restaurant_info)
+            if is_name_update:
+                name = value  # 更新名字
+                continue
+            else:
+                contact_info = value
+                break
+
+        # 确认用户输入的信息
+        print("\nChatbot: Here is the information you provided:")
+        print(f"  Name: {name}")
+        print(f"  Party Size: {party_size}")
+        print(f"  Date/Time: {date_time}")
+        print(f"  Contact Info: {contact_info}")
+
+        # 确认预订
+        while True:
+            print("Chatbot: Are you sure you want to book? (e.g., yes/yeah for Yes, no/nah for No)")
+            user_input = input(f"{name}: ").strip().lower()
+
+            intent = predict_intent(user_input)
+
+            if intent == "positive_responses":
+                break
+            elif intent == "negative_responses":
+                print("Chatbot: Let's re-enter your information.")
+                return start_reservation_process(name, restaurant_info)
+            elif intent == "change":
+                name = input("Chatbot: Please provide the new name: ").strip()
+                print(f"Chatbot: Got it! The name has been changed to {name}.")
+            else:
+                print("Chatbot: I'm sorry, I didn't understand that. Please respond with yes or no.")
+
+        # 生成预订
+        reservation_id, reservation_details = make_reservation(name, party_size, date_time, contact_info)
+        print(f"Chatbot: Your reservation has been confirmed!\n{get_reservation_details(reservation_id)}")
+
+        # 后续流程：修改、取消等
+        while True:
+            print("Chatbot: Would you like to [1] check the status, [2] modify, [3] cancel, or [4] finish?")
+            user_input = input(f"{name}: ").strip().lower()
+
+            if user_input == "1":
+                print(f"Chatbot: {get_reservation_details(reservation_id)}")
+            elif user_input == "2":
+                # 修改流程
+                print("Chatbot: You can modify the following details:")
+                print("0. Name")
+                print("1. Party size")
+                print("2. Date and time")
+                print("3. Contact info")
+
+                modify_choice = input("Chatbot: What would you like to modify? (0/1/2/3): ").strip()
+                if modify_choice == "0":
+                    new_name, _ = prompt_for_input("What's the new name? (e.g Patrick)", name, restaurant_info)
+                    print(modify_reservation(reservation_id, new_name, party_size, date_time, contact_info))
+                elif modify_choice == "1":
+                    # 修改人数
+                    new_party_size = prompt_for_input("How many people will be in your party? (e.g  3)", name,
+                                                      restaurant_info)
+                    print(modify_reservation(reservation_id, name, new_party_size, date_time, contact_info))
+                elif modify_choice == "2":
+                    # 修改日期时间
+                    new_date_time = prompt_for_input(
+                        "What date and time would you like to book? (e.g  08/09/2024 6:30 PM)", name, restaurant_info)
+                    print(modify_reservation(reservation_id, name, party_size, new_date_time, contact_info))
+                elif modify_choice == "3":
+                    # 修改联系方式
+                    new_contact_info = prompt_for_input("Please provide your new contact information (Email or Phone)",
+                                                        name, restaurant_info)
+                    print(modify_reservation(reservation_id, name, party_size, date_time, new_contact_info))
+                else:
+                    print("Chatbot: Invalid option, returning to main menu.")
+
+            elif user_input == "3":
+                print(cancel_reservation(reservation_id))
+                break
+            elif user_input == "4":
+                print(
+                    "Chatbot: Thank you for using our reservation system! You can always make a new reservation later.")
+                break
+            else:
+                print("Chatbot: I'm sorry, I didn't understand that. Please choose a valid option.")
+
+        return True

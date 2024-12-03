@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add Google Search functions">
+    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add more functions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Intent_Recognizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Intent_Recognizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/booking_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/booking_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Intents.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/Intents.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/~$Intents.xlsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +50,14 @@
       <option name="project" value="LOCAL" />
       <updated>1733225392371</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add more functions">
+      <created>1733236773388</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733236773388</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -71,6 +74,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Add Google Search function" />
     <MESSAGE value="Add Google Search functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add Google Search functions" />
+    <MESSAGE value="Add more functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add more functions" />
   </component>
 </project>
