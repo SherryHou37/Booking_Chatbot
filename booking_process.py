@@ -2,6 +2,7 @@
 from restaurant_info import load_restaurant_info, handle_restaurant_query
 import re
 from datetime import datetime
+from Intent_Recognizer import predict_intent
 # Mock reservation system (to be integrated with the main chatbot system)
 reservations = {}
 
@@ -190,7 +191,29 @@ def start_reservation_process(name, restaurant_info):
     # 询问联系方式
     contact_info = prompt_for_input(f"Please provide your contact information (Email or Phone)", name, restaurant_info)
 
+    print("\nChatbot: Here is the information you provided:")
+    print(f"  Party Size: {party_size}")
+    print(f"  Date/Time: {date_time}")
+    print(f"  Contact Info: {contact_info}")
     # 所有信息收集完成后进行预订
+    while True:
+        print("Chatbot: Are you sure you want to book? (e.g., yes/yeah for Yes, no/nah for No)")
+        user_input = input(f"{name}: ").strip().lower()
+
+        # 调用意图识别
+        intent = predict_intent(user_input)
+
+        if intent == "positive_responses":
+            # 用户确认预订，跳出确认环节
+            break
+        elif intent == "negative_responses":
+            # 用户拒绝，重新开始流程
+            print("Chatbot: Let's re-enter your information.")
+            return start_reservation_process(name, restaurant_info)
+        else:
+            print("Chatbot: I'm sorry, I didn't understand that. Please respond with yes or no.")
+
+    # 生成预订
     reservation_id, reservation_details = make_reservation(name, party_size, date_time, contact_info)
     print(f"Chatbot: Your reservation has been confirmed!\n{get_reservation_details(reservation_id)}")
 

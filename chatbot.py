@@ -84,9 +84,6 @@ def chatbot():
             matched_answer = find_answer(user_input)
             print(f"Chatbot: {matched_answer}\n")
 
-
-
-
 # Run the chatbot
 if __name__ == "__main__":
     chatbot()

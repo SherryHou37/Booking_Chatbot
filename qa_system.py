@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
+import webbrowser
 
 # Load the dataset
 file_path = 'data/CW1-Dataset.csv'
@@ -14,6 +15,12 @@ answers = data['Answer']
 vectorizer = TfidfVectorizer()
 question_vectors = vectorizer.fit_transform(questions)
 
+# Function to perform a Google search
+def google_search(query):
+    # This function opens a Google search in the default browser
+    search_url = f"https://www.google.com/search?q={query}"
+    webbrowser.open(search_url)
+    return "No matching answer found in the dataset. Initiating a web search..."
 
 # Function to find the closest match and return only the corresponding answer with confidence
 def find_answer(user_input, threshold=0.5):
@@ -34,5 +41,5 @@ def find_answer(user_input, threshold=0.5):
         matched_answer = answers.iloc[best_match_index]
         return matched_answer
     else:
-        return "I don't understand. Can you please rephrase or say something else?"
-
+        # Fallback to Google search if no match found
+        return google_search(user_input)  # Replace `query` with `user_input`
