@@ -3,8 +3,18 @@ from restaurant_info import load_restaurant_info, handle_restaurant_query
 import re
 from datetime import datetime
 from Intent_Recognizer import predict_intent
+from collections import deque
 # Mock reservation system (to be integrated with the main chatbot system)
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 reservations = {}
+
+from collections import deque
+
+# 队列存储预订历史记录，最多保存 10 条记录
+
 
 # 假设餐厅的营业时间
 restaurant_hours = {
@@ -127,6 +137,23 @@ def is_valid_email(input_str):
 def is_valid_phone(input_str):
     phone_regex = r"^\+?[1-9]\d{1,14}$"
     return re.match(phone_regex, input_str) is not None
+
+from collections import deque
+
+# 队列存储预订历史记录，最多保存 10 条记录
+reservation_history = deque(maxlen=10)
+
+# 添加历史记录的函数
+def add_to_reservation_history(reservation_details):
+    reservation_history.append(reservation_details)
+
+# 获取历史记录的函数
+def get_reservation_history():
+    if not reservation_history:
+        return "No reservation history found. Please make a reservation first."
+    return "\n".join(
+        [f"Record {i+1}: {record}" for i, record in enumerate(reservation_history)]
+    )
 
 # Function to prompt the user for input
 def prompt_for_input(prompt, name, restaurant_info):
@@ -290,9 +317,10 @@ def start_reservation_process(name, restaurant_info):
                 print(cancel_reservation(reservation_id))
                 break
             elif user_input == "4":
-                print(
-                    "Chatbot: Thank you for using our reservation system! You can always make a new reservation later.")
-                break
+                reservation_details_text = get_reservation_details(reservation_id)
+                reservation_history.append(reservation_details_text)
+                print("Chatbot: Your reservation has been saved to history. Thank you for using our system!")
+                return True
             else:
                 print("Chatbot: I'm sorry, I didn't understand that. Please choose a valid option.")
 

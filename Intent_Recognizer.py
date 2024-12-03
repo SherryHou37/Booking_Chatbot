@@ -43,7 +43,7 @@ def predict_intent(user_input, threshold=0.5):
         'restaurant', 'location', 'place', 'restaurant name',  # 餐厅本身信息
         'menu', 'food', 'dish', 'items',  # 菜单信息
         'address', 'where',  # 地址信息
-        'hours', 'operating hours', 'opening hours', 'time',  # 营业时间信息
+        'hours', 'operating hours', 'opening hours', 'opening time', # 营业时间信息
         'offers', 'special offers', 'promotions', 'discounts'  # 优惠信息
     ]):
         return "AskAboutRestaurant"

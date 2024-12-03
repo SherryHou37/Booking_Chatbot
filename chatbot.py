@@ -1,7 +1,8 @@
 import time
+import datetime
 import random
 from Intent_Recognizer import predict_intent  # Import the intent recognition function
-from booking_process import start_reservation_process  # Import the reservation process function
+from booking_process import start_reservation_process, reservation_history  # Import the reservation process function
 import pandas as pd
 from qa_system import find_answer
 from restaurant_info import load_restaurant_info, handle_restaurant_query
@@ -31,9 +32,9 @@ def greet_user():
     print("1. You can type 'book' to start the restaurant reservation process.")
     print("2. Ask about the restaurant, such as its name, opening hours, address, contact information, menu, or special offers.")
     print("3. Chat with me casually, for example, 'How are you?'")
-    print("4. Ask me some general knowledge questions, like 'How much is 1 tablespoon of water?'")
+    print("4. Ask about your booking history")
+    print("5. Ask me some general knowledge questions, like 'How much is 1 tablespoon of water?'")
     return user_name
-
 
 
 # Load the responses for different intents
@@ -54,6 +55,15 @@ def chatbot():
             print("Chatbot: Thank you for using the system. Goodbye!")
             break
 
+        elif user_input == "history":
+            if reservation_history:
+                print("Chatbot: Here are your reservation records:")
+                for idx, record in enumerate(reservation_history, 1):
+                    print(f"{idx}. {record}")
+            else:
+                print("Chatbot: No reservation history found. Please make a reservation first.")
+            continue
+
         # Check the user's intent
         intent = predict_intent(user_input)
 
@@ -63,7 +73,7 @@ def chatbot():
                 print("Chatbot: You can now continue with other requests or say 'exit' to end.")
                 continue
 
-        if intent == "name":
+        elif intent == "name":
             if user_name:
                 print(f"Chatbot: Your name is {user_name}.")
             else:  # 如果不知道名字，提示用户提供
@@ -94,6 +104,13 @@ def chatbot():
                 print("Chatbot: I couldn't understand your input. Your name remains unchanged.")
             continue
 
+        elif intent == "time":
+            current_time = datetime.datetime.now()
+            # 格式化时间，例如 'YYYY-MM-DD HH:MM:SS'
+            formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
+            print(f"Chatbot: The current time is {formatted_time}.")
+            continue
+
         elif intent in responses:
             available_responses = responses[intent]
             response = random.choice(available_responses)
@@ -102,6 +119,7 @@ def chatbot():
         elif intent == "Other":
             matched_answer = find_answer(user_input)
             print(f"Chatbot: {matched_answer}\n")
+
 
 # Run the chatbot
 if __name__ == "__main__":
