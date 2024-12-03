@@ -10,8 +10,8 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 reservations = {}
-
 from collections import deque
+reservation_history = deque(maxlen=10)
 
 # 队列存储预订历史记录，最多保存 10 条记录
 
@@ -137,11 +137,6 @@ def is_valid_email(input_str):
 def is_valid_phone(input_str):
     phone_regex = r"^\+?[1-9]\d{1,14}$"
     return re.match(phone_regex, input_str) is not None
-
-from collections import deque
-
-# 队列存储预订历史记录，最多保存 10 条记录
-reservation_history = deque(maxlen=10)
 
 # 添加历史记录的函数
 def add_to_reservation_history(reservation_details):

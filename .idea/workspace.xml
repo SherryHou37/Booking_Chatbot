@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add more functions">
+    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add save history function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Intent_Recognizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Intent_Recognizer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/booking_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/booking_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/CW1-Dataset.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/CW1-Dataset.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Intents.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/Intents.xlsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,7 +64,14 @@
       <option name="project" value="LOCAL" />
       <updated>1733238197716</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Add save history function">
+      <created>1733247386916</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733247386916</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -86,6 +89,7 @@
     <MESSAGE value="Add Google Search function" />
     <MESSAGE value="Add Google Search functions" />
     <MESSAGE value="Add more functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add more functions" />
+    <MESSAGE value="Add save history function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add save history function" />
   </component>
 </project>
