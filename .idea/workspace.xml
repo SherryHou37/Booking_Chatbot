@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/booking_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/booking_process.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Intents.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/Intents.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa_system.py" afterDir="false" />
-    </list>
+    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add Google Search functions" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,6 +33,14 @@
       <option name="presentableId" value="Default" />
       <updated>1733173905917</updated>
     </task>
+    <task id="LOCAL-00001" summary="Add Google Search function">
+      <created>1733225302451</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1733225302451</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -50,5 +53,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Add Google Search function" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Google Search function" />
   </component>
 </project>
