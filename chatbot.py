@@ -1,7 +1,7 @@
 import time
 import datetime
 import random
-from Intent_Recognizer import predict_intent  # Import the intent recognition function
+from Intent_Recognizer import predict_intent, sentiment_analysis # Import the intent recognition function
 from booking_process import start_reservation_process, reservation_history  # Import the reservation process function
 import pandas as pd
 from qa_system import find_answer
@@ -32,7 +32,7 @@ def greet_user():
     print("1. You can type 'book' to start the restaurant reservation process.")
     print("2. Ask about the restaurant, such as its name, opening hours, address, contact information, menu, or special offers.")
     print("3. Chat with me casually, for example, 'How are you?'")
-    print("4. Ask about your booking history")
+    print("4. Type 'history' to ask about your booking history.")
     print("5. Ask me some general knowledge questions, like 'How much is 1 tablespoon of water?'")
     return user_name
 
@@ -50,6 +50,10 @@ def chatbot():
 
     while True:
         user_input = input(f"{user_name}: ")  # Use the stored name in the user prompt
+        # 获取情感分析结果
+        sentiment_response = sentiment_analysis(user_input)
+        if sentiment_response is not None:
+            print(f"Chatbot: {sentiment_response}")
 
         if user_input.lower() in ['exit', 'quit']:
             print("Chatbot: Thank you for using the system. Goodbye!")
@@ -106,7 +110,6 @@ def chatbot():
 
         elif intent == "time":
             current_time = datetime.datetime.now()
-            # 格式化时间，例如 'YYYY-MM-DD HH:MM:SS'
             formatted_time = current_time.strftime("%Y-%m-%d %H:%M:%S")
             print(f"Chatbot: The current time is {formatted_time}.")
             continue
@@ -117,10 +120,12 @@ def chatbot():
             print(f"Chatbot: {response}")
 
         elif intent == "Other":
-            matched_answer = find_answer(user_input)
-            print(f"Chatbot: {matched_answer}\n")
+            matched_answer = find_answer(user_input, user_name)
+            if matched_answer is None:
+                continue
 
-
+            else:
+                print(f"Chatbot: {matched_answer}\n")
 # Run the chatbot
 if __name__ == "__main__":
     chatbot()

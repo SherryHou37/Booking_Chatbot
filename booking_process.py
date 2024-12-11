@@ -4,13 +4,12 @@ import re
 from datetime import datetime
 from Intent_Recognizer import predict_intent
 from collections import deque
-# Mock reservation system (to be integrated with the main chatbot system)
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
 reservations = {}
 from collections import deque
+import pytz
 reservation_history = deque(maxlen=10)
 
 # 队列存储预订历史记录，最多保存 10 条记录
@@ -28,12 +27,42 @@ restaurant_hours = {
 }
 
 
+# 发送邮件的功能
+def send_confirmation_email(user_email, reservation_details):
+    try:
+        # 设置网易邮箱的SMTP服务器（例如使用网易 SMTP 服务器）
+        smtp_server = "smtp.163.com"
+        smtp_port = 465  # 选择465端口（SSL加密）
+        sender_email = "liyu131452000@163.com"  # 发送者的网易邮箱地址
+        sender_password = "JSwJYG5ga9nFSbHD"  # 发送者的邮箱密码（如果启用了2步验证，可以使用应用专用密码）
+
+        # 创建邮件
+        subject = "Your Reservation Confirmation"
+        body = f"Thank you for your reservation!\n\n{reservation_details}"
+
+        # 邮件内容
+        message = MIMEMultipart()
+        message["From"] = sender_email
+        message["To"] = user_email
+        message["Subject"] = subject
+        message.attach(MIMEText(body, "plain"))
+
+        # 连接SMTP服务器并发送邮件
+        with smtplib.SMTP_SSL(smtp_server, smtp_port) as server:  # 使用SSL加密
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, user_email, message.as_string())
+
+        print("Chatbot: Your reservation details have been sent to your email!")
+
+    except Exception as e:
+        print(f"Chatbot: Failed to send email. Error: {e}")
+
 def is_valid_reservation_time(input_time):
     try:
-        # 将用户输入的时间解析成 datetime 对象
-        user_time = datetime.strptime(input_time, '%m/%d/%Y %I:%M %p')
+        # 尝试解析用户输入的时间为 DD/MM/YYYY 格式
+        user_time = datetime.strptime(input_time, '%d/%m/%Y %I:%M %p')
     except ValueError:
-        return False, "Invalid time format. Please use the format 'MM/DD/YYYY HH:MM AM/PM'."
+        return False, "Invalid time format. Please use the format 'DD/MM/YYYY HH:MM AM/PM'."
 
     # 检查用户输入的时间是否早于当前时间
     now = datetime.now()
@@ -60,6 +89,7 @@ def is_valid_reservation_time(input_time):
         return False, "Error with restaurant hours configuration."
 
     return True, "Valid time."
+
 
 
 
@@ -133,11 +163,6 @@ def is_valid_email(input_str):
     return re.match(email_regex, input_str) is not None
 
 
-# Function to check if user input is valid phone number
-def is_valid_phone(input_str):
-    phone_regex = r"^\+?[1-9]\d{1,14}$"
-    return re.match(phone_regex, input_str) is not None
-
 # 添加历史记录的函数
 def add_to_reservation_history(reservation_details):
     reservation_history.append(reservation_details)
@@ -202,9 +227,6 @@ def prompt_for_input(prompt, name, restaurant_info):
             print(f"Chatbot: Got it! Your email is {user_input}.")
             return user_input, False  # 返回有效的邮箱，不标记为名字更新
 
-        if "phone" in prompt.lower() and is_valid_phone(user_input):
-            print(f"Chatbot: Got it! Your phone number is {user_input}.")
-            return user_input, False  # 返回有效的电话号码，不标记为名字更新
 
         print("Chatbot: Invalid input. Please try again.")
 
@@ -224,7 +246,7 @@ def start_reservation_process(name, restaurant_info):
 
         # 询问日期时间
         while True:
-            value, is_name_update = prompt_for_input(f"What date and time would you like to book? (e.g., 08/09/2024 6:30 PM)", name, restaurant_info)
+            value, is_name_update = prompt_for_input(f"What date and time would you like to book? (eg: To book a reservation for 6:30 PM on December 15, 2024, please use the format: 15/12/2024 6:30 PM)", name, restaurant_info)
             if is_name_update:
                 name = value  # 更新名字
                 continue
@@ -234,7 +256,7 @@ def start_reservation_process(name, restaurant_info):
 
         # 询问联系方式
         while True:
-            value, is_name_update = prompt_for_input(f"Please provide your contact information (Email or Phone)", name, restaurant_info)
+            value, is_name_update = prompt_for_input(f"Please provide your contact information (Email,eg:qweasd@gmail.com)", name, restaurant_info)
             if is_name_update:
                 name = value  # 更新名字
                 continue
@@ -249,19 +271,18 @@ def start_reservation_process(name, restaurant_info):
         print(f"  Date/Time: {date_time}")
         print(f"  Contact Info: {contact_info}")
 
-        # 确认预订
         while True:
             print("Chatbot: Are you sure you want to book? (e.g., yes/yeah for Yes, no/nah for No)")
             user_input = input(f"{name}: ").strip().lower()
 
-            intent = predict_intent(user_input)
-
-            if intent == "positive_responses":
+            # 基于规则的匹配
+            if "yes" in user_input or "yeah" in user_input:
+                print("Chatbot: Great! Your reservation is confirmed.")
                 break
-            elif intent == "negative_responses":
+            elif "no" in user_input or "nah" in user_input:
                 print("Chatbot: Let's re-enter your information.")
                 return start_reservation_process(name, restaurant_info)
-            elif intent == "change":
+            elif "change" in user_input:
                 name = input("Chatbot: Please provide the new name: ").strip()
                 print(f"Chatbot: Got it! The name has been changed to {name}.")
             else:
@@ -273,7 +294,8 @@ def start_reservation_process(name, restaurant_info):
 
         # 后续流程：修改、取消等
         while True:
-            print("Chatbot: Would you like to [1] check the status, [2] modify, [3] cancel, or [4] finish?")
+            print("Chatbot: Would you like to [1] check the status, [2] modify, [3] cancel, or [4] confirm your reservation?")
+
             user_input = input(f"{name}: ").strip().lower()
 
             if user_input == "1":
@@ -292,17 +314,18 @@ def start_reservation_process(name, restaurant_info):
                     print(modify_reservation(reservation_id, new_name, party_size, date_time, contact_info))
                 elif modify_choice == "1":
                     # 修改人数
-                    new_party_size = prompt_for_input("How many people will be in your party? (e.g  3)", name,
-                                                      restaurant_info)
+                    new_party_size, is_name_update = prompt_for_input("How many people will be in your party? (e.g 3)", name, restaurant_info)
+                    print(new_party_size)
                     print(modify_reservation(reservation_id, name, new_party_size, date_time, contact_info))
                 elif modify_choice == "2":
                     # 修改日期时间
-                    new_date_time = prompt_for_input(
-                        "What date and time would you like to book? (e.g  08/09/2024 6:30 PM)", name, restaurant_info)
+                    new_date_time ,is_name_update= prompt_for_input(
+                        "What date and time would you like to book? (eg: To book a reservation for 6:30 PM on December 15, 2024, please use the format: 15/12/2024 6:30 PM)", name, restaurant_info)
+                    print(new_date_time)
                     print(modify_reservation(reservation_id, name, party_size, new_date_time, contact_info))
                 elif modify_choice == "3":
                     # 修改联系方式
-                    new_contact_info = prompt_for_input("Please provide your new contact information (Email or Phone)",
+                    new_contact_info,is_name_update = prompt_for_input("Please provide your new contact information (Email,eg:qweasd@gmail.com)",
                                                         name, restaurant_info)
                     print(modify_reservation(reservation_id, name, party_size, date_time, new_contact_info))
                 else:
@@ -311,12 +334,18 @@ def start_reservation_process(name, restaurant_info):
             elif user_input == "3":
                 print(cancel_reservation(reservation_id))
                 break
+
             elif user_input == "4":
+                # 确认预订并发送邮件
                 reservation_details_text = get_reservation_details(reservation_id)
+                print(f"Chatbot: Here is your reservation details:\n{reservation_details_text}")
+                send_confirmation_email(contact_info, reservation_details_text)  # 发送邮件
                 reservation_history.append(reservation_details_text)
-                print("Chatbot: Your reservation has been saved to history. Thank you for using our system!")
+                print(
+                    "Chatbot: Your reservation has been saved to history and the details have been sent to your email. Thank you for using our system!")
                 return True
-            else:
+
+        else:
                 print("Chatbot: I'm sorry, I didn't understand that. Please choose a valid option.")
 
         return True

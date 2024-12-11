@@ -61,7 +61,7 @@ def handle_restaurant_query(user_input, restaurant_info):
         print(f"  Sunday: {operating_hours['sunday']}")
 
     # 查询特殊优惠
-    elif any(keyword in user_input for keyword in ['special offers', 'promotions', 'discounts']):
+    elif any(keyword in user_input for keyword in ['special offers', 'promotions', 'discounts','schedule']):
         print("Chatbot: Here are the current special offers:")
         if restaurant_info["special_offers"]:
             for offer in restaurant_info["special_offers"]:

@@ -23,7 +23,7 @@ def google_search(query):
     return "No matching answer found in the dataset. Initiating a web search..."
 
 # Function to find the closest match and return only the corresponding answer with confidence
-def find_answer(user_input, threshold=0.5):
+def find_answer(user_input, user_name, threshold=0.7):
     # Vectorize user input
     user_input_vector = vectorizer.transform([user_input])
 
@@ -41,5 +41,32 @@ def find_answer(user_input, threshold=0.5):
         matched_answer = answers.iloc[best_match_index]
         return matched_answer
     else:
-        # Fallback to Google search if no match found
-        return google_search(user_input)  # Replace `query` with `user_input`
+        # Return a default response asking for rephrasing or Google search
+        print(f"Chatbot: I don't understand, {user_name}. Can you please rephrase or say something else?")
+        print("Chatbot: Or enter 1 to perform a Google search.")
+        print("Chatbot: Or enter 2 to see the list of things I can help you with.")
+
+        # Get the user's response for further action
+        user_input_for_action = input(f"{user_name}: ").strip()
+
+        if user_input_for_action == "1":
+            # Perform Google search if the user inputs 1
+            return google_search(user_input)
+        elif user_input_for_action == "2":
+            # List the things the chatbot can help with if the user inputs 2
+            print("Chatbot: Here are some things I can help you with:")
+            print("1. You can type 'book' to start the restaurant reservation process.")
+            print("2. Ask about the restaurant, such as its name, opening hours, address, contact information, menu, or special offers.")
+            print("3. Chat with me casually, for example, 'How are you?'")
+            print("4. Type 'history' to ask about your booking history.")
+            print("5. Ask me some general knowledge questions, like 'How much is 1 tablespoon of water?'")
+            # After showing the options, return None to prompt user for new input
+            return None
+        else:
+        # If user input is neither 1 nor 2, prompt them to try again
+            print("Chatbot: Ok, you can try saying something else with me.")
+        return None
+
+
+
+
