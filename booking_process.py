@@ -1,15 +1,11 @@
-# booking_process.py
-from restaurant_info import load_restaurant_info, handle_restaurant_query
 import re
 from datetime import datetime
 from Intent_Recognizer import predict_intent
-from collections import deque
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 reservations = {}
 from collections import deque
-import pytz
 reservation_history = deque(maxlen=10)
 
 # 队列存储预订历史记录，最多保存 10 条记录
@@ -31,10 +27,10 @@ restaurant_hours = {
 def send_confirmation_email(user_email, reservation_details):
     try:
         # 设置网易邮箱的SMTP服务器（例如使用网易 SMTP 服务器）
-        smtp_server = "smtp.163.com"
+        smtp_server = "smtp.gmail.com"
         smtp_port = 465  # 选择465端口（SSL加密）
-        sender_email = "liyu131452000@163.com"  # 发送者的网易邮箱地址
-        sender_password = "JSwJYG5ga9nFSbHD"  # 发送者的邮箱密码（如果启用了2步验证，可以使用应用专用密码）
+        sender_email = "yixinhou37@gmail.com"  # 发送者的网易邮箱地址
+        sender_password = "yroejhojxxyzbnee"  # 发送者的邮箱密码（如果启用了2步验证，可以使用应用专用密码）
 
         # 创建邮件
         subject = "Your Reservation Confirmation"

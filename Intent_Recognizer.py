@@ -5,10 +5,6 @@ import numpy as np
 import re
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import confusion_matrix, classification_report
-
 
 # 文本预处理函数
 def preprocess_text(text):

@@ -1,16 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add save history function">
+    <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add all new stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Intent_Recognizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Intent_Recognizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/booking_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/booking_process.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/Intents.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/Intents.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/qa_system.py" beforeDir="false" afterPath="$PROJECT_DIR$/qa_system.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/report_en.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/restaurant_info.py" beforeDir="false" afterPath="$PROJECT_DIR$/restaurant_info.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +29,28 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Python.chatbot">
+    <configuration name="TestIntents" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="COMP3074_CW" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TestIntents.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="chatbot" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="COMP3074_CW" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -59,6 +75,7 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.chatbot" />
+        <item itemvalue="Python.TestIntents" />
       </list>
     </recent_temporary>
   </component>
@@ -113,7 +130,14 @@
       <option name="project" value="LOCAL" />
       <updated>1733248754636</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Add all new stuff">
+      <created>1733916659538</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733916659538</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -132,6 +156,7 @@
     <MESSAGE value="Add Google Search functions" />
     <MESSAGE value="Add more functions" />
     <MESSAGE value="Add save history function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add save history function" />
+    <MESSAGE value="Add all new stuff" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add all new stuff" />
   </component>
 </project>

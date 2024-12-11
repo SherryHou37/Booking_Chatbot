@@ -55,7 +55,7 @@ def chatbot():
         if sentiment_response is not None:
             print(f"Chatbot: {sentiment_response}")
 
-        if user_input.lower() in ['exit', 'quit']:
+        if user_input.lower() in ['exit', 'quit', ]:
             print("Chatbot: Thank you for using the system. Goodbye!")
             break
 
