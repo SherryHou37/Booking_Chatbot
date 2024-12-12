@@ -3,7 +3,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import numpy as np
 import re
-from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 
 # 文本预处理函数
@@ -13,16 +12,7 @@ def preprocess_text(text):
 
     # 去除标点符号和特殊字符
     text = re.sub(r'[^\w\s]', '', text)
-
-    # 去除停用词
-    stop_words = set(stopwords.words('english'))
-    tokens = text.split()
-    filtered_tokens = [word for word in tokens if word not in stop_words]
-    text = " ".join(filtered_tokens)
-
     # 词干提取
-    stemmer = PorterStemmer()
-    text = " ".join([stemmer.stem(word) for word in text.split()])
 
     return text
 
@@ -67,7 +57,7 @@ def sentiment_analysis(user_input):
 
 
 # 意图预测函数
-def predict_intent(user_input, threshold=0.3):
+def predict_intent(user_input, threshold=0.5):
     # 预处理用户输入
     user_input_processed = preprocess_text(user_input)
 

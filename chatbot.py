@@ -55,7 +55,7 @@ def chatbot():
         if sentiment_response is not None:
             print(f"Chatbot: {sentiment_response}")
 
-        if user_input.lower() in ['exit', 'quit', ]:
+        if user_input.lower() in ['exit', 'quit']:
             print("Chatbot: Thank you for using the system. Goodbye!")
             break
 
@@ -119,13 +119,21 @@ def chatbot():
             response = random.choice(available_responses)
             print(f"Chatbot: {response}")
 
-        elif intent == "Other":
-            matched_answer = find_answer(user_input, user_name)
-            if matched_answer is None:
-                continue
 
+
+        elif intent == "Other":
+
+            if sentiment_response is None:  # 只有情感分析结果为空时才执行
+
+                matched_answer = find_answer(user_input, user_name)
+
+                if matched_answer is not None:  # 确保找到的答案不是空
+
+                    print(f"Chatbot: {matched_answer}\n")
             else:
-                print(f"Chatbot: {matched_answer}\n")
+                print(f"Chatbot: You can try saying something else with me.")
+
+
 # Run the chatbot
 if __name__ == "__main__":
     chatbot()

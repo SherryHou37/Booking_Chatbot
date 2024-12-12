@@ -4,8 +4,10 @@
     <list default="true" id="c9c4da51-a129-469d-830a-eb8be066fc2b" name="Changes" comment="Add all new stuff">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Intent_Recognizer.py" beforeDir="false" afterPath="$PROJECT_DIR$/Intent_Recognizer.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/booking_process.py" beforeDir="false" afterPath="$PROJECT_DIR$/booking_process.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TestIntents.py" beforeDir="false" afterPath="$PROJECT_DIR$/TestIntents.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/chatbot.py" beforeDir="false" afterPath="$PROJECT_DIR$/chatbot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/Intents.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/data/Intents.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/问卷结果图.py" beforeDir="false" afterPath="$PROJECT_DIR$/Testperformace.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +16,10 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Intent_Recognizer.py" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/chatbot.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -137,7 +143,14 @@
       <option name="project" value="LOCAL" />
       <updated>1733916659538</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Add all new stuff">
+      <created>1733927281008</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1733927281008</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

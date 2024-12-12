@@ -30,7 +30,7 @@ def preprocess_text(text):
     return text
 
 # 读取训练数据（例如，意图和相应的文本）
-train_file_path = 'test data/TestIntents1.xlsx'
+train_file_path = 'test data/TestIntents.xlsx'
 df_train = pd.read_excel(train_file_path)
 
 # 初始化训练数据
