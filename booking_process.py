@@ -117,12 +117,12 @@ def get_reservation_details(reservation_id):
         return "Reservation not found."
 
 # Function to check the reservation status
-def check_status(reservation_id):
-    if reservation_id in reservations:
-        reservation = reservations[reservation_id]
-        return f"Your reservation for {reservation['party_size']} people at {reservation['date_time']} is {reservation['status']}."
-    else:
-        return "Reservation not found."
+#def check_status(reservation_id):
+    #if reservation_id in reservations:
+        #reservation = reservations[reservation_id]
+        #return f"Your reservation for {reservation['party_size']} people at {reservation['date_time']} is {reservation['status']}."
+    #else:
+        #return "Reservation not found."
 
 # Function to cancel a reservation
 def cancel_reservation(reservation_id):
@@ -142,16 +142,6 @@ def modify_reservation(reservation_id, new_name, new_party_size, new_date_time, 
     else:
         return "Reservation not found."
 
-def check_for_restaurant_query(user_input):
-    restaurant_keywords = [
-        'restaurant', 'location', 'place', 'name',  # 餐厅本身信息
-        'menu', 'food', 'dish', 'items',  # 菜单信息
-        'address', 'where',  # 地址信息
-        'hours', 'operating hours', 'opening hours', 'time',  # 营业时间信息
-        'offers', 'special offers', 'promotions', 'discounts'  # 优惠信息
-    ]
-    return any(keyword in user_input.lower() for keyword in restaurant_keywords)
-
 
 # Function to prompt the user for input
 def is_valid_email(input_str):
@@ -160,8 +150,8 @@ def is_valid_email(input_str):
 
 
 # 添加历史记录的函数
-def add_to_reservation_history(reservation_details):
-    reservation_history.append(reservation_details)
+#def add_to_reservation_history(reservation_details):
+    #reservation_history.append(reservation_details)
 
 # 获取历史记录的函数
 def get_reservation_history():
@@ -286,11 +276,11 @@ def start_reservation_process(name, restaurant_info):
 
         # 生成预订
         reservation_id, reservation_details = make_reservation(name, party_size, date_time, contact_info)
-        print(f"Chatbot: Your reservation has been confirmed!\n{get_reservation_details(reservation_id)}")
+        print(f"Chatbot: Here is your reservation detail.\n{get_reservation_details(reservation_id)}")
 
         # 后续流程：修改、取消等
         while True:
-            print("Chatbot: Would you like to [1] check the status, [2] modify, [3] cancel, or [4] confirm your reservation?")
+            print("Chatbot: Would you like to [1] check the status, [2] modify, [3] cancel, or [4] finish")
 
             user_input = input(f"{name}: ").strip().lower()
 

@@ -1,6 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pandas as pd
+import random
 import webbrowser
 
 # Load the dataset
@@ -22,7 +23,7 @@ def google_search(query):
     webbrowser.open(search_url)
     return "No matching answer found in the dataset. Initiating a web search..."
 
-# Function to find the closest match and return only the corresponding answer with confidence
+# Function to find the closest match and return a random corresponding answer with confidence
 def find_answer(user_input, user_name, threshold=0.7):
     # Vectorize user input
     user_input_vector = vectorizer.transform([user_input])
@@ -36,10 +37,17 @@ def find_answer(user_input, user_name, threshold=0.7):
     # Get the cosine similarity score for the best match
     best_match_score = similarities[0, best_match_index]
 
-    # If the similarity score is above the threshold, return the corresponding answer
+    # If the similarity score is above the threshold, find all matching answers
     if best_match_score >= threshold:
-        matched_answer = answers.iloc[best_match_index]
-        return matched_answer
+        # Get the question text of the best match
+        matched_question = questions.iloc[best_match_index]
+
+        # Find all answers corresponding to this question
+        matching_answers = data[data['Question'] == matched_question]['Answer'].tolist()
+
+        # Randomly select one of the matching answers
+        random_answer = random.choice(matching_answers).strip()
+        return random_answer
     else:
         # Return a default response asking for rephrasing or Google search
         print(f"Chatbot: I don't understand, {user_name}. Can you please rephrase or say something else?")
@@ -63,10 +71,6 @@ def find_answer(user_input, user_name, threshold=0.7):
             # After showing the options, return None to prompt user for new input
             return None
         else:
-        # If user input is neither 1 nor 2, prompt them to try again
+            # If user input is neither 1 nor 2, prompt them to try again
             print("Chatbot: Ok, you can try saying something else with me.")
         return None
-
-
-
-
